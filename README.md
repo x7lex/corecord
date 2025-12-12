@@ -1,7 +1,5 @@
-# Corecord Bot 🤖
-
-Corecord is designed to be the backbone of any modern Discord bot, designed for simplicity, flexibility, and ease of extension.
-
+# 🤖 CoreCord
+CoreCord is the foundation for any Discord bot, offering helpful utilities that make bot development simpler and more user-friendly.
 ---
 
 ## 📁 Project Structure
@@ -17,6 +15,9 @@ Corecord is designed to be the backbone of any modern Discord bot, designed for 
     ├── colours.py
     └── console.py
 ```
+> ℹ️ You are required to create a `.env` file (or any name you prefer) in your project.  
+> Then add the following environment variable:
+> `DISCORD_TOKEN`
 
 ---
 
@@ -30,18 +31,12 @@ The main entry point of the bot. Handles:
 * Command tree setup
 * Dynamic module loading
 * Error handling
-* Console logging with colors
 
 ### `modules/`
 
 Contains all bot commands and logic, automatically loaded at startup. See notes for more details.
 
-* `example.py` – *This is an example command to great via /hello*
-
-### `token.env`
-
-Environment file containing your bot token and other sensitive variables.
-⚠️ Keep this file private and never push it to public repositories.
+* `example.py` – *This is an example command to great via* /hello
 
 ### `utils/`
 
@@ -56,8 +51,7 @@ Helper modules used throughout the bot:
 * `console.py` – Handles logging to the console using colors from `Colour`.
 
 ---
-
-## 🚀 Getting Started
+## ✅ Getting Started
 
 1. Install dependencies:
 
@@ -86,27 +80,3 @@ python bot.py
 3. The bot will automatically load it on startup.
 
 ---
-
-## 🌈 Logging
-
-All logs are printed with colors using the `Colour` enum for easy yet comprehensive debugging:
-
-* `RED` – Errors ❌
-* `GREEN` – Success ✅
-* `YELLOW` – Warnings ⚠️
-* `BLUE` – Info ℹ️
-
----
-
-## ✨ Contributing
-
-Feel free to fork, add modules, or improve utilities!
-Make sure to follow Python best practices and test your changes.
-
----
-
-## 📌 Notes
-
-* Modules should always have a `register(bot)` function.
-* The bot dynamically loads any `.py` file in `modules/` not in `utils/`.
-* This was made in Python 3.13 making it the recommended version. 
