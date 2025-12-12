@@ -79,4 +79,3 @@ python bot.py
 2. Define a `register(bot)` function that adds commands or features.
 3. The bot will automatically load it on startup.
 
----
