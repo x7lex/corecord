@@ -1,9 +1,28 @@
-import os, discord, importlib, pkgutil, modules
+import os, discord, importlib, pkgutil, modules, utils
 from discord import app_commands
 from dotenv import load_dotenv
-from utils.check_permissions import handle_permission_error
-from utils.console import log
-from utils.colours import Colour
+from enum import Enum
+
+class Colour(Enum):
+    RED = 1
+    GREEN = 2
+    YELLOW = 3
+    BLUE = 4
+
+ANSI_MAP = {
+    Colour.RED: "\033[31m",
+    Colour.GREEN: "\033[32m",
+    Colour.YELLOW: "\033[33m",
+    Colour.BLUE: "\033[34m",
+}
+
+RESET = "\033[0m"
+
+def log(text: str, colour: Colour = None):
+    if colour and colour in ANSI_MAP:
+        print(f"{ANSI_MAP[colour]}{text}{RESET}")
+    else:
+        print(text)
 
 def load_any_env():
     for file in os.listdir("."):
@@ -25,8 +44,20 @@ class Init(discord.Client):
 
     async def setup_hook(self):
         if not self._modules_loaded:
+            await self.load_utils()
             await self.load_modules()
             self._modules_loaded = True
+
+    async def load_utils(self):
+        log("Loading utils...", Colour.BLUE)
+        for _, util_name, _ in pkgutil.iter_modules(utils.__path__):
+            try:
+                util_module = importlib.import_module(f"utils.{util_name}")
+                if hasattr(util_module, "register"):
+                    util_module.register(self)
+                log(f"Loaded util: {util_name}", Colour.GREEN)
+            except Exception as e:
+                log(f"Failed to load util {util_name}: {e}", Colour.RED)
 
     async def load_modules(self):
         log("Loading modules...", Colour.BLUE)
@@ -35,9 +66,9 @@ class Init(discord.Client):
                 module = importlib.import_module(f"modules.{module_name}")
                 if hasattr(module, "register"):
                     module.register(self)
-                log(f"Loaded: {module_name}", Colour.GREEN)
+                log(f"Loaded module: {module_name}", Colour.GREEN)
             except Exception as e:
-                log(f"Failed to load {module_name}: {e}", Colour.RED)
+                log(f"Failed to load module {module_name}: {e}", Colour.RED)
         try:
             await self.tree.sync()
             log("Command tree synced", Colour.GREEN)
@@ -49,17 +80,19 @@ client = Init()
 @client.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error):
     try:
-        await handle_permission_error(interaction, error)
+        if isinstance(error, app_commands.MissingPermissions):
+            await interaction.response.send_message("You do not have permission to run this command.", ephemeral=True)
+            log(f"Missing permissions: {error}", Colour.YELLOW)
+        else:
+            raise error
     except Exception as e:
         log(f"Unhandled command error: {e}", Colour.RED)
         try:
             if not interaction.response.is_done():
-                await interaction.response.send_message(
-                    "An unexpected error occurred.", ephemeral=True
-                )
+                await interaction.response.send_message("An unexpected error occurred.", ephemeral=True)
         except Exception:
             pass
-
+        
 @client.event
 async def on_ready():
     log(f"Logged in as {client.user}", Colour.GREEN)
@@ -74,4 +107,3 @@ except discord.LoginFailure:
     log("Invalid token provided.", Colour.RED)
 except Exception as e:
     log(f"Bot failed to start: {e}", Colour.RED)
-
