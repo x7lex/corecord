@@ -10,7 +10,6 @@ CoreCord is the foundation for any Discord bot, offering helpful utilities that 
 ├── modules/
 │   └── example.py
 └── utils/
-    ├── check_config.py
     ├── check_permissions.py
     ├── colours.py
     └── console.py
@@ -41,8 +40,6 @@ Contains all bot commands and logic, automatically loaded at startup. See notes 
 ### `utils/`
 
 Helper modules used throughout the bot:
-
-* `check_config.py` – Configuration validation and settings management.
 
 * `check_permissions.py` – Functions for checking permissions and handling command errors.
 
