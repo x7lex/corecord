@@ -1,78 +1,50 @@
-# 🤖 CoreCord
-CoreCord is the foundation for any Discord bot, offering helpful utilities that make bot development simpler and more user-friendly.
----
+# Botcore
 
-## 📁 Project Structure
+Botcore provides a foundation for developers to build and customize their own Discord bots without writing an entire base.
 
-```
-.
-├── bot.py
-├── modules/
-│   └── example.py
-└── utils/
-    ├── check_permissions.py
-    ├── colours.py
-    └── console.py
-```
-> ℹ️ You are required to create a `.env` file (or any name you prefer) in your project.  
-> Then add the following environment variable:
-> `DISCORD_TOKEN`
+Botcore automatically handles the following:
 
----
+* **Slash Comamnds:** Built in support for creating and managing Discord slash commands.
+* **Module Loading:** Automatically imports bot modules. `/src/modules`
+* **Logging:** Built in logging with output stored in `/logs`.
+* **Permission Handling:** Centralized permission checks and access control.
+* **Cog Management:** Built in support for organizing commands and functionality using Discord.py Cogs.
 
-## 📝 File Overview
+## Setup
+MacOS & Linux:
 
-### `bot.py`
+Make the virtual enviorment first:
 
-The main entry point of the bot. Handles:
+`python -m venv .venv`
 
-* Client initialization
-* Command tree setup
-* Dynamic module loading
-* Error handling
+Then depending on your shell, you activate it:
 
-### `modules/`
+**Bash / Zsh:**
 
-Contains all bot commands and logic, automatically loaded at startup. See notes for more details.
+`source .venv/bin/activate`
 
-* `example.py` – *This is an example command to great via* /hello
+**Fish:**
 
-### `utils/`
+`source .venv/bin/activate.fish`
 
-Helper modules used throughout the bot:
+Windows:
 
-* `check_permissions.py` – Functions for checking permissions and handling command errors.
+`py -m venv .venv`
 
-* `colours.py` – Defines the `Colour` enum for consistent color references (`RED`, `GREEN`, `YELLOW`, `BLUE`).
+Then activate it depending on your shell:
 
-* `console.py` – Handles logging to the console using colors from `Colour`.
+**PowerShell:**
 
----
-## ✅ Getting Started
+`.venv\Scripts\Activate.ps1`
 
-1. Install dependencies:
+**Command Prompt (CMD):**
 
-```bash
-pip install -r requirements.txt
-```
+`.venv\Scripts\activate.bat`
 
-2. Make any .env file and add your Discord bot token:
+### Install Dependencies
 
-```
-DISCORD_TOKEN=YOUR_BOT_TOKEN_HERE
-```
+Once the virtual environment is activated:
 
-3. Run the bot:
+`pip install -r requirements.txt`
 
-```bash
-python bot.py
-```
-
----
-
-## ⚙️ Adding Modules
-
-1. Create a new file in `modules/`.
-2. Define a `register(bot)` function that adds commands or features.
-3. The bot will automatically load it on startup.
 
