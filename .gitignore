@@ -1,0 +1,15 @@
+# environment files
+*.env
+
+# macOS metadata
+.DS_Store
+
+# virtual enviorment dirs
+.venv/
+venv/
+
+# pycache
+__pycache__/
+
+# logs contents but not the log folder itself
+logs/*
